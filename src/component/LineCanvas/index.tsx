@@ -1,4 +1,3 @@
-import { useConcent } from "concent";
 import React, { FC, RefObject, useEffect, useRef } from "react";
 import { INode, INodeRefs } from "../../types/mindmap";
 import useResizeFn from "../../hooks/useResizeFn";
