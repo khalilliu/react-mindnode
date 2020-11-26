@@ -12,6 +12,7 @@ export default (callback: Function) => {
     };
   }, []);
   useEffect(() => {
+    console.log('resize')
     callback();
-  }, [flag, callback]);
+  }, [flag]);
 };

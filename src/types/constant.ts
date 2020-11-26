@@ -6,7 +6,7 @@ export const MINDMAP_ID = "rmind_mindmap_wrapper";
 export const MINDMAP_MAIN = "rmind_main";
 
 export enum stepConst {
-  ZOOM_STEP = 0.1,
+  ZOOM_STEP = 0.02,
   MOVE_STEP = 0.1
 }
 

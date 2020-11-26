@@ -60,14 +60,14 @@ const Mindmap: FC<IProps> = ({ container_ref }) => {
     };
 
     const handleWheelEventWithKey = (e: WheelEvent) => {
-      if (e.type === "mousedown") {
-        mousemoveInfo.isKeydown = true;
-      } else if (e.type === "mouseup") {
-        mousemoveInfo.isKeydown = false;
-      }
-      if (!mousemoveInfo.isKeydown) {
-        return;
-      }
+      // if (e.type === "mousedown") {
+      //   mousemoveInfo.isKeydown = true;
+      // } else if (e.type === "mouseup") {
+      //   mousemoveInfo.isKeydown = false;
+      // }
+      // if (!mousemoveInfo.isKeydown) {
+      //   return;
+      // }
       if (e.ctrlKey === true && e.deltaY) {
         e.preventDefault();
         e.stopPropagation();
@@ -85,22 +85,22 @@ const Mindmap: FC<IProps> = ({ container_ref }) => {
         return;
       }
 
-      if (e.altKey && e.buttons === 1) {
+      if (e.altKey && e.buttons === 1 && e.type === 'mousemove') {
         e.stopPropagation();
+        console.log(mousemoveInfo,e.clientX,e.clientY)
         const { startX, startY } = mousemoveInfo;
         const moveX = e.clientX - startX;
         const moveY = e.clientY - startY;
+        mousemoveInfo.startX = e.clientX;
+        mousemoveInfo.startY = e.clientY;
         cr.$$global.moveXY({
           x: moveX / normalizeXY / 10,
           y: moveY / normalizeXY / 10
         });
-        mousemoveInfo.startX = e.clientX;
-        mousemoveInfo.startY = e.clientY;
       }
     };
     const eventHandler = (e: WheelEvent) => {
       try {
-        console.log(e);
         handleWheelEventWithKey(e);
       } catch (error) {
         alert("移动或缩放功能错误" + error);
@@ -111,7 +111,7 @@ const Mindmap: FC<IProps> = ({ container_ref }) => {
       .addEventListener("wheel", eventHandler);
     document
       .querySelector(`#${MINDMAP_MAIN}`)
-      .addEventListener("mousemove", eventHandler);
+      .addEventListener("mousemove", debounce(eventHandler, 20));
     document
       .querySelector(`#${MINDMAP_MAIN}`)
       .addEventListener("mousedown", eventHandler);
@@ -124,7 +124,7 @@ const Mindmap: FC<IProps> = ({ container_ref }) => {
         .removeEventListener("wheel", eventHandler);
       document
         .querySelector(`#${MINDMAP_MAIN}`)
-        .removeEventListener("mousemove", eventHandler);
+        .removeEventListener("mousemove", debounce(eventHandler, 20));
       document
         .querySelector(`#${MINDMAP_MAIN}`)
         .removeEventListener("mousedown", eventHandler);
@@ -149,7 +149,7 @@ const Mindmap: FC<IProps> = ({ container_ref }) => {
       style={{
         zoom: gState.zoom,
         left: gState.x + "vw",
-        right: gState.y + "vh"
+        top: gState.y + "vh"
       }}
       id={MINDMAP_ID}
       draggable={false}

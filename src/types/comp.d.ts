@@ -6,4 +6,4 @@ export type WithChildren<T = {}> = T & {
 
 
 
-export type NodeDomMap = Map<INodeId, [left:number, right:number, y:number, tag: string]>
+export type NodeDomMap = Map<INodeId, any[]>

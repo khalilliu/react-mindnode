@@ -25,7 +25,7 @@ export function setEdit(
   moduleState: ModuleState,
   ac: IAC
 ): ModuleState {
-  return { cur_select: "", cur_edit: payload.nodeId, cur_node_info: {} };
+  return { cur_select: "", cur_edit: payload.nodeId, cur_node_info: {} as ModuleState["cur_node_info"] };
 }
 
 export function clearAll(
@@ -37,7 +37,6 @@ export function clearAll(
     cur_select: "",
     select_by_click: false,
     cur_edit: "",
-    cur_node_info: {}
   };
 }
 

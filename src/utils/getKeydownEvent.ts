@@ -11,7 +11,7 @@ export default function getKeydownEvent(cr, nodeStatus: INodeStatus) {
       case "ENTER": {
         ev.preventDefault();
         cr.mindmap.addSibling({
-          parentId: nodeStatus.cur_node_info.parent.id,
+          parentId: nodeStatus.cur_node_info?.parent.id,
           nodeId: nodeStatus.cur_select
         });
         break;
@@ -71,7 +71,7 @@ export default function getKeydownEvent(cr, nodeStatus: INodeStatus) {
         );
         if (curIndex > 0) {
           cr.nodeStatus.setSelect({
-            nodeId: nodeStatus.cur_node_info.parent.child[curIndex - 1].id
+            nodeId: nodeStatus.cur_node_info.parent.children[curIndex - 1].id
           });
         }
         break;
@@ -84,7 +84,7 @@ export default function getKeydownEvent(cr, nodeStatus: INodeStatus) {
         let lastIndex = nodeStatus.cur_node_info.parent.children.length - 1;
         if (curIndex < lastIndex) {
           cr.nodeStatus.setSelect({
-            nodeId: nodeStatus.cur_node_info.parent.child[curIndex + 1].id
+            nodeId: nodeStatus.cur_node_info.parent.children[curIndex + 1].id
           });
         }
         break;

@@ -31,14 +31,14 @@ export function deepCopy<T>(input: T): any {
   return input;
 }
 
-export function debounce<T>(fn: Function, wait: number): unknown {
+export function debounce(fn: Function, wait: number) {
   let timer = null;
   return function (...props) {
     if (timer) clearTimeout(timer);
     timer = setTimeout(() => {
       fn.apply(this, props);
     }, wait);
-  } as unknown;
+  } ;
 }
 
 export function setShowChildrenTrue(node: INode): void {
