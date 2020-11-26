@@ -30,7 +30,7 @@ const Node: FC<IProps> = ({ layer, node, node_refs, parent, left = false }) => {
   const {
     connectedState: { nodeStatus, editPanel },
     cr
-  } = useConcent({ connect: ["nodeStatus", "editPanel"] });
+  } = useConcent({ connect: ['mindmap',"nodeStatus", "editPanel"] });
 
   // 单击节点
   const handleSelectNode = () => {

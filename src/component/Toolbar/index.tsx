@@ -20,15 +20,25 @@ type IProps = {
 };
 
 const ToolBar: FC<IProps> = ({ layer, node, parent }) => {
-  const { cr } = useConcent({ connect: ["mindmap", "nodeStatus"] });
+  const { dispatch} = useConcent({module: "mindmap", connect: ["nodeStatus"] });
+
+  const handleAddChild = () => {
+    dispatch('mindmap/addChild',{nodeId: node.id})
+  }
+  const handleAddSibling = () => {}
+  const handleDelete = () => {}
+  const handleEdit = () => {}
+  const handleAddInfo = () => {}
+  const handleToggleChildren = () => {}
+
   return (
     <div className={wrapper} onClick={handlePropagation}>
-      <ToolButton text="添加子节点" icon={<AddSubset />}></ToolButton>
-      <ToolButton text="添加兄弟节点" icon={<AddItem />}></ToolButton>
-      <ToolButton text="删除" icon={<Delete />}></ToolButton>
-      <ToolButton text="编辑" icon={<Edit />}></ToolButton>
-      <ToolButton text="添加备注" icon={<DocAdd />}></ToolButton>
-      <ToolButton text="显隐子节点" icon={<SixPoints />}></ToolButton>
+      <ToolButton onClick={handleAddChild} text="添加子节点" icon={<AddSubset />}></ToolButton>
+      <ToolButton onClick={handleAddSibling} text="添加兄弟节点" icon={<AddItem />}></ToolButton>
+      <ToolButton onClick={handleDelete} text="删除" icon={<Delete />}></ToolButton>
+      <ToolButton onClick={handleEdit} text="编辑" icon={<Edit />}></ToolButton>
+      <ToolButton onClick={handleAddInfo} text="添加备注" icon={<DocAdd />}></ToolButton>
+      <ToolButton onClick={handleToggleChildren} text="显隐子节点" icon={<SixPoints />}></ToolButton>
     </div>
   );
 };

@@ -5,20 +5,21 @@ import useResizeFn from "../../hooks/useResizeFn";
 import drawLineCanvas from "../../utils/drawLineCanvas";
 import { NodeDomMap } from "../../types/comp";
 import { wrapper } from "./style";
+import { ITheme } from '../../types/global';
 
 type IProps = {
   parentRef: RefObject<HTMLDivElement>;
-  mindmap: INode;
   nodeRefs: INodeRefs;
+  mindmap: INode,
+  current_theme: ITheme,
+  zoom: number
 };
 
-const LineCanvas: FC<IProps> = ({ parentRef, mindmap, nodeRefs }) => {
+const LineCanvas: FC<IProps> = ({ parentRef, current_theme, zoom, mindmap, nodeRefs }) => {
   const self = useRef<HTMLCanvasElement>();
-  const {
-    state,
-    moduleComputed: { current_theme }
-  } = useConcent("$$global");
+ 
   const renderLine = () => {
+    console.log('redraw')
     const dom = self.current;
     dom.width = parentRef.current.offsetWidth;
     dom.height = parentRef.current.offsetHeight;
@@ -37,8 +38,9 @@ const LineCanvas: FC<IProps> = ({ parentRef, mindmap, nodeRefs }) => {
     drawLineCanvas(ctx, current_theme, mindmap, nodeDomMap);
   };
   // resize callback
-  useResizeFn(renderLine);
-  useEffect(renderLine, [mindmap, current_theme, state.zoom]);
+  useResizeFn(() => renderLine());
+  console.log(mindmap.children[0].children)
+  useEffect(() => renderLine(), [mindmap, current_theme, zoom]);
 
   return <canvas ref={self} className={wrapper} />;
 };

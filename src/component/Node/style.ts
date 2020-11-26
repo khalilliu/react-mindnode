@@ -13,7 +13,7 @@ export const common_style = css`
   padding: 15px;
   background-color: #fff;
   border: 1px solid var(${Theme.THEME_MAIN});
-  border-radius: 15px;
+  border-radius: 10px;
   cursor: pointer;
   p {
     min-height: 18px;

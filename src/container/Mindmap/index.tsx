@@ -17,9 +17,11 @@ type IProps = {
 const Mindmap: FC<IProps> = ({ container_ref }) => {
   const self = useRef<HTMLDivElement>();
   const {
-    connectedState: { $$global: gState, mindmap, nodeStatus },
+    state: mindmap,
+    connectedState: { $$global: gState, nodeStatus },
+    connectedComputed: {$$global: {current_theme}},
     cr
-  } = useConcent({ connect: ["$$global", "mindmap", "nodeStatus", "history"] });
+  } = useConcent({module: 'mindmap', connect: ["$$global",  "nodeStatus", "history"] });
 
   const mindmap_json = useMemo(() => JSON.stringify(mindmap), [mindmap]);
 
@@ -160,7 +162,7 @@ const Mindmap: FC<IProps> = ({ container_ref }) => {
         node={mindmap}
         node_refs={node_refs}
       />
-      <LineCanvas parentRef={self} mindmap={mindmap} nodeRefs={node_refs} />
+      <LineCanvas current_theme={current_theme} zoom={gState.zoom} mindmap={{...mindmap}} parentRef={self} nodeRefs={node_refs} />
     </div>
   );
 };

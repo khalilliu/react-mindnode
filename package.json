@@ -9,6 +9,7 @@
     "@icon-park/react": "1.0.14",
     "concent": "2.9.37",
     "concent-plugin-redux-devtool": "2.0.3",
+    "dequal": "^2.0.2",
     "md5": "2.3.0",
     "react": "17.0.0",
     "react-dom": "16.12.0",
