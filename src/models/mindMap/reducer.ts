@@ -16,10 +16,9 @@ export function changeText(
   moduleState: ModuleState,
   ac: IAC
 ): ModuleState {
-  let newMindmap = deepCopy(moduleState);
-  let foundNode = findNode(newMindmap, payload.nodeId);
+  let foundNode = findNode(moduleState, payload.nodeId);
   Object.assign(foundNode, { text: payload.text });
-  return newMindmap;
+  return moduleState;
 }
 
 export function toggleChildren(
@@ -27,12 +26,11 @@ export function toggleChildren(
   moduleState: ModuleState,
   ac: IAC
 ): ModuleState {
-  let newMindmap = deepCopy(moduleState);
-  let foundNode = findNode(newMindmap, payload.nodeId);
-  if (foundNode.children.length > 0 && foundNode !== newMindmap) {
+  let foundNode = findNode(moduleState, payload.nodeId);
+  if (foundNode.children.length > 0 && foundNode !== moduleState) {
     Object.assign(foundNode, { showChildren: !foundNode.showChildren });
   }
-  return newMindmap;
+  return moduleState;
 }
 
 export function addChild(
@@ -66,6 +64,7 @@ export function addSibling(
       children: []
     });
   }
+  return moduleState
 }
 
 export function moveNode(
@@ -95,6 +94,7 @@ export function moveNode(
     let targetNode = findNode(moduleState, payload.targetId);
     targetNode.children.push(nodeCopy);
   }
+  return moduleState
 }
 
 export function deleteNode(
@@ -109,6 +109,7 @@ export function deleteNode(
     );
     foundNode.children.splice(deleteIndex, 1);
   }
+  return moduleState
 }
 
 export function expandAll(
@@ -118,6 +119,7 @@ export function expandAll(
 ) {
   let foundNode = findNode(moduleState, payload.nodeId);
   setShowChildrenTrue(foundNode);
+  return moduleState
 }
 
 export function setMindmap(

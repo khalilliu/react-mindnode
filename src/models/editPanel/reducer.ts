@@ -9,7 +9,6 @@ export const togglePanel = (
   moduleState: ModuleState,
   ac: IAC
 ): ModuleState => {
-  let newState = deepCopy(moduleState);
-  newState.isShow = payload.isShow;
-  return newState;
+  moduleState.isShow = payload.isShow;
+  return moduleState;
 };

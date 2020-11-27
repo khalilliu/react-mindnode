@@ -1,14 +1,13 @@
 import { SnapShot } from "../../types/history";
 import { RootState, AC } from "../../types/store";
-import { deepCopy } from "../../utils/helpers";
 import { getInitialState } from "./state";
 
 type ModuleState = RootState["history"];
 type IAC = AC<"history">;
 
 /**
- * redo: 重做
- * undo: 撤销
+ * undo: 撤销 [上一步]
+ * redo: 重做 [下一步]
  * last_snapshot: 当前记录
  */
 
@@ -17,29 +16,29 @@ export function setHistory(
   moduleState: ModuleState,
   ac: IAC
 ): ModuleState {
-  const newHistory = deepCopy(moduleState);
-  if (newHistory.last_snapshot) {
+  if (moduleState.last_snapshot) {
     if (
-      newHistory.undo.length > 0 &&
-      newHistory.undo[newHistory.undo.length - 1].mindmap === payload.mindmap
+      moduleState.undo.length > 0 &&
+      moduleState.undo[moduleState.undo.length - 1].mindmap === payload.mindmap
     ) {
       // 点击撤销
-      newHistory.redo.unshift(newHistory.last_snapshot);
-      newHistory.undo.pop();
+      moduleState.redo.unshift(moduleState.last_snapshot);
+      moduleState.undo.pop();
     } else if (
-      newHistory.redo.length > 0 &&
-      newHistory.redo[0].mindmap === payload.mindmap
+      moduleState.redo.length > 0 &&
+      moduleState.redo[0].mindmap === payload.mindmap
     ) {
       // 点击重做
-      newHistory.undo.push(newHistory.last_snapshot);
-      newHistory.redo.shift();
+      moduleState.undo.push(moduleState.last_snapshot);
+      moduleState.redo.shift();
     } else {
-      newHistory.undo.push(newHistory.last_snapshot);
-      newHistory.redo = [];
+      moduleState.undo.push(moduleState.last_snapshot);
+      moduleState.redo = [];
     }
   }
-  newHistory.last_snapshot = { ...payload };
-  return newHistory;
+  // 保存快照
+  moduleState.last_snapshot = { ...payload };
+  return moduleState;
 }
 
 export function clearHistory(

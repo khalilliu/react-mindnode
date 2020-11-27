@@ -1,6 +1,6 @@
 import { RootState, AC } from "../../types/store";
 import { INode, INodeId } from "../../types/mindmap";
-import { deepCopy } from "../../utils/helpers";
+import {deepCopy} from '../../utils/helpers'
 
 type ModuleState = RootState["nodeStatus"];
 type IAC = AC<"nodeStatus">;
@@ -9,15 +9,16 @@ export function setSelect(
   payload: { nodeId: INodeId; selectByClick: boolean },
   moduleState: ModuleState,
   ac: IAC
-): ModuleState {
-  let nodeStatus = deepCopy(moduleState);
-  if (nodeStatus.cur_select === payload.nodeId) {
-    delete nodeStatus.cur_node_info;
+) {
+  console.log('set select')
+  let newState = deepCopy(moduleState)
+  if (newState.cur_select === payload.nodeId) {
+    delete newState.cur_node_info;
   }
-  nodeStatus.cur_select = payload.nodeId;
-  nodeStatus.select_by_click = payload.selectByClick || false;
-  nodeStatus.cur_edit = "";
-  return nodeStatus;
+  newState.cur_select = payload.nodeId;
+  newState.select_by_click = payload.selectByClick || false;
+  newState.cur_edit = "";
+  return newState
 }
 
 export function setEdit(
@@ -45,12 +46,12 @@ export function getNodeInfo(
   moduleState: ModuleState,
   ac: IAC
 ): ModuleState {
-  let nodeStatus = deepCopy(moduleState);
-  nodeStatus.cur_node_info = {
-    ...nodeStatus.cur_node_info,
+  let newState = deepCopy(moduleState)
+  newState.cur_node_info = {
+    ...moduleState.cur_node_info,
     ...payload.node,
     parent: payload.parent,
     left: payload.left
   };
-  return nodeStatus;
+  return newState;
 }

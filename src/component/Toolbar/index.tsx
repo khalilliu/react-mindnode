@@ -25,11 +25,19 @@ const ToolBar: FC<IProps> = ({ layer, node, parent }) => {
   const handleAddChild = () => {
     dispatch('mindmap/addChild',{nodeId: node.id})
   }
-  const handleAddSibling = () => {}
-  const handleDelete = () => {}
-  const handleEdit = () => {}
+  const handleAddSibling = () => {
+    dispatch('mindmap/addSibling', {parentId: parent.id, nodeId: node.id})
+  }
+  const handleDelete = () => {
+    dispatch('mindmap/deleteNode', {parentId: parent.id, nodeId: node.id})
+  }
+  const handleEdit = () => {
+    dispatch('nodeStatus/setEdit', {nodeId: node.id})
+  }
   const handleAddInfo = () => {}
-  const handleToggleChildren = () => {}
+  const handleToggleChildren = () => {
+    dispatch('mindmap/toggleChildren', {nodeId: node.id})
+  }
 
   return (
     <div className={wrapper} onClick={handlePropagation}>

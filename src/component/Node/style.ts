@@ -57,7 +57,7 @@ export const specific_style = [
   css`
     div& {
       padding: 0px 15px;
-      border: none;
+      border: 2px solid var(${Theme.THEME_EX});
       p {
         font-size: 90%;
       }

@@ -29,23 +29,23 @@ const Node: FC<IProps> = ({ layer, node, node_refs, parent, left = false }) => {
   const self = useRef<HTMLDivElement>();
   const {
     connectedState: { nodeStatus, editPanel },
-    cr
+    dispatch,
   } = useConcent({ connect: ['mindmap',"nodeStatus", "editPanel"] });
 
   // 单击节点
   const handleSelectNode = () => {
-    cr.nodeStatus.setSelect({ nodeId: node.id, selectByClick: true });
+    dispatch('nodeStatus/setSelect',{ nodeId: node.id, selectByClick: true });
   };
 
   // 双击节点
   const handleEditNode = () => {
-    cr.nodeStatus.setEdit({ nodeId: node.id });
+    dispatch('nodeStatus/setEdit',{ nodeId: node.id });
   };
 
   // 显隐子节点
   const handleToggleChildren = () => {
-    cr.mindmap.toggleChildren({ nodeId: node.id });
-    cr.nodeStatus.clearAll();
+    dispatch('mindmap/toggleChildren',{ nodeId: node.id });
+    dispatch('nodeStatus/clearAll');
   };
 
   // 保存节点dom
@@ -64,7 +64,7 @@ const Node: FC<IProps> = ({ layer, node, node_refs, parent, left = false }) => {
         block: "center",
         inline: "center"
       });
-      cr.nodeStatus.getNodeInfo({ node: node, parent: parent, left: left });
+      dispatch('nodeStatus/getNodeInfo',{ node: node, parent: parent, left: left });
     }
   }, [nodeStatus.cur_select, node]);
 
