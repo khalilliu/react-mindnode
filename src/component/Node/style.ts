@@ -8,7 +8,7 @@ const style_selected_border = `
 export const common_style = css`
   position: relative;
   min-width: 10px;
-  min-width: 200px;
+  max-width: 200px;
   margin: 20px 40px;
   padding: 15px;
   background-color: #fff;

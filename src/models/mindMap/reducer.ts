@@ -77,6 +77,7 @@ export function moveNode(
   moduleState: ModuleState,
   ac: IAC
 ) {
+  console.log(payload)
   let parentNode = findNode(moduleState, payload.parentId);
   let nodeIndex = parentNode.children.findIndex(
     (node) => node.id === payload.nodeId

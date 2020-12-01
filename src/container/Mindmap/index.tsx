@@ -8,6 +8,7 @@ import getKeydownEvent from "../../utils/getKeydownEvent";
 import useResizeFn from "../../hooks/useResizeFn";
 import LineCanvas from "../../component/LineCanvas";
 import { INodeRefs } from "../../types/mindmap";
+import DragCanvas from '../../component/DragCanvas';
 
 const node_refs: INodeRefs = new Set<RefObject<HTMLDivElement>>();
 
@@ -162,6 +163,7 @@ const Mindmap: FC<IProps> = ({ container_ref }) => {
         node={mindmap}
         node_refs={node_refs}
       />
+      <DragCanvas parentRef={self} containerRef={container_ref} mindmap={{...mindmap}} current_theme={current_theme} zoom={gState.zoom} x={gState.x} y ={gState.y}></DragCanvas>
       <LineCanvas current_theme={current_theme} zoom={gState.zoom} mindmap={{...mindmap}} parentRef={self} nodeRefs={node_refs} />
     </div>
   );

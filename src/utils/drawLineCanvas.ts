@@ -1,8 +1,10 @@
-import { INode } from "../types/mindmap";
+import { INode, INodeId } from "../types/mindmap";
 import { ITheme } from "../types/global";
 import { NodeDomMap } from "../types/comp";
 import { NodeType } from "../types/constant";
+import {Position} from './getDragEvents'
 
+// 绘制弧线
 function drawBezier(
   ctx: CanvasRenderingContext2D,
   x1: number,
@@ -14,6 +16,7 @@ function drawBezier(
   ctx.bezierCurveTo(x1, y2, 0.9 * x2 + 0.1 * x1, y2, x2, y2);
 }
 
+// 绘制连线
 function drawLine(
   ctx: CanvasRenderingContext2D,
   node: INode,
@@ -38,6 +41,7 @@ function drawLine(
   }
 }
 
+// 绘制节点中间的连线
 export default function drawLineCanvas(
   ctx: CanvasRenderingContext2D,
   theme: ITheme,
@@ -50,4 +54,28 @@ export default function drawLineCanvas(
   drawLine(ctx, mindmap, map);
   ctx.stroke();
   ctx.closePath();
+}
+
+// 绘制拖拽的虚拟节点
+export function drawDragCanvas(ctx: CanvasRenderingContext2D, theme:ITheme, nodeId:INodeId, parentOffset: undefined|Position, childOffset: Position, childLeftOfParent: boolean):void {
+  const virturalRectWidth = 50, virturalRectHeight = 20;
+  ctx.beginPath();
+  ctx.strokeStyle = theme.main
+  ctx.lineWidth = 2
+  ctx.setLineDash([5,5])
+  let parentX, parentY, childX, childY;
+  parentY = (parentOffset.top + parentOffset.bottom)/2
+  childY = (childOffset.top + childOffset.bottom)/2
+  if(childLeftOfParent) {
+    parentX = parentOffset.left
+    childX = childOffset.right
+    ctx.strokeRect(childX - virturalRectWidth, childY - virturalRectHeight/2, virturalRectWidth, virturalRectHeight)
+  } else {
+    parentX = parentOffset.right
+    childX = childOffset.left
+    ctx.strokeRect(childX, childY - virturalRectHeight/2, virturalRectWidth, virturalRectHeight)
+  }
+  drawBezier(ctx, parentX, parentY, childX, childY)
+  ctx.stroke()
+  ctx.closePath()
 }
