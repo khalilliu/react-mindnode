@@ -3,7 +3,6 @@ import { INode, INodeId } from "../../types/mindmap";
 import { RootState, AC } from "../../types/store";
 import {
   findNode,
-  deepCopy,
   setShowChildrenTrue,
   generateRandom
 } from "../../utils/helpers";
